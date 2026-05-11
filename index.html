@@ -18,6 +18,9 @@
     <meta property="og:image" content="social-preview.jpg">
     -->
 
+    <!-- Preload hero video so it starts fetching before the <video> tag is parsed -->
+    <link rel="preload" as="video" href="Hero.mp4" type="video/mp4">
+
     <!-- Google Fonts: Cormorant Garamond (display) + Lora (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1070,11 +1073,12 @@
                 <div class="game-img-wrap">
                     <video
                         class="game-video"
-                        src="NestSunset.mp4"
+                        data-src="NestSunset.mp4"
                         autoplay
                         muted
                         loop
                         playsinline
+                        preload="none"
                     ></video>
                 </div>
                 <p class="game-caption">The nest grows one layer at a time. So does everything else.</p>
@@ -1085,11 +1089,12 @@
                 <div class="game-img-wrap">
                     <video
                         class="game-video"
-                        src="FeedVid2.mp4"
+                        data-src="FeedVid2.mp4"
                         autoplay
                         muted
                         loop
                         playsinline
+                        preload="none"
                     ></video>
                 </div>
                 <p class="game-caption">The world fills with flowers nobody planted.</p>
@@ -1100,11 +1105,12 @@
                 <div class="game-img-wrap">
                     <video
                         class="game-video"
-                        src="CarryTwig.mp4"
+                        data-src="CarryTwig.mp4"
                         autoplay
                         muted
                         loop
                         playsinline
+                        preload="none"
                     ></video>
                 </div>
                 <p class="game-caption">She carries one thing at a time. Every trip back matters.</p>
@@ -1157,11 +1163,12 @@
                 <div class="inspiration-media-wrap">
                     <video
                         class="inspiration-video"
-                        src="WhereItBegan.mp4"
+                        data-src="WhereItBegan.mp4"
                         autoplay
                         muted
                         loop
                         playsinline
+                        preload="none"
                     ></video>
                 </div>
             </div>
@@ -1224,7 +1231,7 @@
     </form>
 
     <div class="signup-thankyou" id="signup-thankyou" aria-live="polite" role="status">
-        <img class="thankyou-bird" src="HoverStudioLogo.png" alt="" aria-hidden="true">
+        <img class="thankyou-bird" src="HoverStudioLogo.png" alt="" aria-hidden="true" loading="lazy">
         <p class="signup-thankyou-title">She's on her way.</p>
         <p class="signup-thankyou-middle">Thank you for being here before it begins.</p>
         <p class="signup-thankyou-sub">We'll let you know when she arrives.</p>
@@ -1308,6 +1315,22 @@
     document.querySelectorAll('.reveal').forEach(function (el) {
         observer.observe(el);
     });
+
+    // Lazy-load below-fold videos — start fetching 400px before they enter view
+    var lazyVids = document.querySelectorAll('video[data-src]');
+    if (lazyVids.length) {
+        var vidObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    var v = entry.target;
+                    v.src = v.dataset.src;
+                    v.load();
+                    vidObserver.unobserve(v);
+                }
+            });
+        }, { rootMargin: '400px' });
+        lazyVids.forEach(function (v) { vidObserver.observe(v); });
+    }
 
 
     // Floating petals on signup
