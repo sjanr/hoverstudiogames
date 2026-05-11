@@ -161,7 +161,8 @@
         top: 0;
         z-index: 100;
         width: 100%;
-        background-color: var(--c-cream-sky);
+        background-color: #EAEff5;
+        isolation: isolate;
         padding: 0 2.5rem;
         display: flex;
         align-items: center;
@@ -178,6 +179,7 @@
         text-transform: uppercase;
         color: var(--c-green-deep);
         text-decoration: none;
+        white-space: nowrap;
     }
 
     .nav-links {
@@ -197,10 +199,29 @@
         text-decoration: none;
         opacity: 0.75;
         transition: opacity 0.2s;
+        white-space: nowrap;
     }
 
     .nav-links a:hover {
         opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+        .s-nav {
+            padding: 0 1.2rem;
+            gap: 1rem;
+        }
+        .nav-wordmark {
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+        }
+        .nav-links {
+            gap: 1rem;
+        }
+        .nav-links a {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+        }
     }
 
 
