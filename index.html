@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#253C30">
+    <title>Hover Studio</title>
+    <link rel="icon" type="image/png" href="HoverStudioLogo.png">
+    <meta name="description" content="A short, quiet game about a hummingbird building a nest in a world that is slowly learning to welcome her back.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="A Thousand Wingbeats — Hover Studio">
+    <meta property="og:description" content="She came back to find home. She ended up becoming home for others.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hoverstudiogames.com">
+    <!--
+    ASSET: Uncomment and update once you have a social preview image:
+    <meta property="og:image" content="social-preview.jpg">
+    -->
+
+    <!-- Google Fonts: Cormorant Garamond (display) + Lora (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+    <style>
+
+    /* =============================================================
+       RESET & ROOT VARIABLES
+       ============================================================= */
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+        /* Palette drawn from the game's actual visual language:
+           airy sky blues, bright spring greens, warm honey wood tones */
+        --c-green-deep:  #253C30;   /* headings, footer, key UI — warmer than before */
+        --c-green-mid:   #3E7A58;   /* accents, hover states — brighter, more garden */
+        --c-amber:       #C4905A;   /* honey-wood warmth, from the treehouse tones */
+        --c-cream:       #F5F2E8;   /* base background — clean warm cream */
+        --c-cream-sage:  #EBF0E9;   /* pale sage-mint — the game's bright grass, muted */
+        --c-cream-sky:   #EAEff5;   /* pale sky blue — the game's open sky, muted */
+        --c-cream-warm:  #F0E9DF;   /* warm parchment */
+        --c-cream-deep:  #E8E4DA;   /* deeper parchment */
+        --c-grey-green:  #7A9E8A;   /* supporting text, subtle elements */
+        --c-near-black:  #222018;   /* body text — very slightly warm */
+        --c-hero-bg:     #0C1C1A;   /* hero — deep dusk teal, connected to the game's sky */
+    }
+
+    html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+    }
+
+    body {
+        font-family: 'Lora', Georgia, serif;
+        background-color: var(--c-cream-sky);
+        color: var(--c-near-black);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Paper grain texture — SVG turbulence noise overlay, CSS-only */
+    body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.038;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 256px 256px;
+    }
+
+
+    /* =============================================================
+       SCROLL REVEAL SYSTEM
+       ============================================================= */
+    .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Stagger helpers — add alongside .reveal */
+    .d1 { transition-delay: 0.10s; }
+    .d2 { transition-delay: 0.22s; }
+    .d3 { transition-delay: 0.38s; }
+    .d4 { transition-delay: 0.55s; }
+
+
+    /* =============================================================
+       ACCESSIBILITY
+       ============================================================= */
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+
+    /* =============================================================
+       SHARED LAYOUT
+       ============================================================= */
+    .inner {
+        max-width: 620px;
+        margin: 0 auto;
+    }
+
+    .inner--wide {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    .inner--full {
+        max-width: 980px;
+        margin: 0 auto;
+    }
+
+    .eyebrow {
+        display: block;
+        font-family: 'Lora', Georgia, serif;
+        font-size: 0.78rem;
+        font-weight: 400;
+        letter-spacing: 0.34em;
+        text-transform: uppercase;
+        color: var(--c-green-deep);
+        margin-bottom: 2.5rem;
+    }
+
+    .title-inline {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        color: var(--c-amber);
+        font-size: 1.05em;
+        font-weight: 400;
+    }
+
+
+    /* =============================================================
+       NAV
+       ============================================================= */
+    .s-nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        background-color: var(--c-cream-sky);
+        padding: 0 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+        box-shadow: 0 1px 0 rgba(37, 60, 48, 0.08);
+    }
+
+    .nav-wordmark {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--c-green-deep);
+        text-decoration: none;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        list-style: none;
+    }
+
+    .nav-links a {
+        font-family: 'Lora', Georgia, serif;
+        font-size: 0.9rem;
+        font-weight: 400;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--c-green-deep);
+        text-decoration: none;
+        opacity: 0.75;
+        transition: opacity 0.2s;
+    }
+
+    .nav-links a:hover {
+        opacity: 1;
+    }
+
+
+
+    /* =============================================================
+       HERO
+       ============================================================= */
+    .s-hero {
+        position: relative;
+        width: 100%;
+        height: 78vh;
+        min-height: 480px;
+        max-height: 860px;
+        overflow: hidden;
+        background-color: var(--c-cream-sky);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Mask: rounds the bottom of the image itself, Pixar-style */
+        border-radius: 0 0 50% 50% / 0 0 70px 70px;
+    }
+
+    /* Background image — fills the banner, cropped to fit */
+    .hero-bg-img,
+    .hero-bg-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 35%;
+    }
+
+    /* Dark overlay — makes white text readable over the bright game image */
+    .hero-vignette {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            linear-gradient(to bottom,
+                rgba(10,18,10,0.55) 0%,
+                rgba(10,18,10,0.30) 30%,
+                rgba(10,18,10,0.35) 60%,
+                rgba(10,18,10,0.70) 100%);
+    }
+
+    /* "Hover Studio presents" — small line above the main title */
+    .hero-presents {
+        display: block;
+        font-family: 'Lora', Georgia, serif;
+        font-style: italic;
+        font-size: clamp(0.8rem, 1.6vw, 1rem);
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        color: rgba(253,246,236, 0.70);
+        margin-bottom: 1rem;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 0 28px;
+        width: 100%;
+    }
+
+    .hero-title {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(2rem, 7vw, 5rem);
+        font-weight: 500;
+        line-height: 1.0;
+        letter-spacing: 0.02em;
+        color: #ffffff;
+        text-shadow:
+            0 2px 40px rgba(0,0,0,0.4),
+            0 1px 12px rgba(0,0,0,0.25);
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-tagline {
+        display: block;
+        font-family: 'Lora', Georgia, serif;
+        font-style: italic;
+        font-size: clamp(1.1rem, 2.8vw, 1.5rem);
+        color: rgba(253,246,236, 0.90);
+        font-weight: 400;
+        letter-spacing: 0.02em;
+    }
+
+    /* Scroll cue — fades in after 2.8s */
+    .hero-cue {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        opacity: 0;
+        animation: cue-appear 1s ease 2.8s forwards;
+    }
+
+    .hero-cue-line {
+        width: 1px;
+        height: 26px;
+        background: linear-gradient(to bottom, transparent, rgba(253,246,236,0.40));
+        animation: cue-breathe 2.6s ease-in-out infinite;
+    }
+
+    .hero-cue-chevron {
+        width: 7px;
+        height: 7px;
+        border-right: 1px solid rgba(253,246,236,0.40);
+        border-bottom: 1px solid rgba(253,246,236,0.40);
+        transform: rotate(45deg);
+        margin-top: -2px;
+        animation: cue-drop 2.6s ease-in-out infinite;
+    }
+
+    @keyframes cue-appear {
+        to { opacity: 1; }
+    }
+
+    @keyframes cue-breathe {
+        0%, 100% { opacity: 0.25; }
+        50%       { opacity: 0.65; }
+    }
+
+    @keyframes cue-drop {
+        0%, 100% { opacity: 0.25; transform: rotate(45deg) translateY(-3px); }
+        50%       { opacity: 0.65; transform: rotate(45deg) translateY(3px); }
+    }
+
+
+    /* =============================================================
+       SECTION: THE FEELING
+       ============================================================= */
+    .s-feeling {
+        padding: 11rem 28px;
+        background-color: var(--c-cream-sage);
+        position: relative;
+        display: flex;
+        align-items: center;
+        min-height: 65vh;
+    }
+
+    .s-feeling::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            radial-gradient(ellipse 65% 55% at 28% 40%, rgba(62,122,88,0.07) 0%, transparent 100%),
+            radial-gradient(ellipse 55% 50% at 76% 62%, rgba(196,144,90,0.05) 0%, transparent 100%);
+    }
+
+    .s-feeling .inner {
+        text-align: center;
+        width: 100%;
+    }
+
+    .feeling-p {
+        font-size: clamp(1.25rem, 2.8vw, 1.6rem);
+        line-height: 2.05;
+        color: var(--c-near-black);
+        letter-spacing: 0.01em;
+    }
+
+    .feeling-p + .feeling-p {
+        margin-top: 2.25rem;
+    }
+
+
+    /* =============================================================
+       SECTION: THE GAME
+       ============================================================= */
+    .s-game {
+        padding: 7rem 28px 8rem;
+        background-color: var(--c-cream-warm);
+        position: relative;
+    }
+
+    .s-game::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(62,122,88,0.06) 0%, transparent 100%);
+    }
+
+    .s-game .eyebrow {
+        text-align: center;
+        margin-bottom: 4.5rem;
+    }
+
+    .game-gallery {
+        display: flex;
+        flex-direction: column;
+        gap: 4.5rem;
+    }
+
+    .game-frame {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.1rem;
+    }
+
+    /* Wrapper adds the warm vignette on top of the image */
+    .game-img-wrap {
+        position: relative;
+        width: 100%;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow:
+            0 5px 40px rgba(26,58,42,0.13),
+            0 2px 10px rgba(26,58,42,0.07);
+    }
+
+    .game-img-wrap::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 6px;
+        background: radial-gradient(ellipse at center, transparent 40%, rgba(13,18,12,0.22) 100%);
+        pointer-events: none;
+    }
+
+    /*
+     * REPLACING PLACEHOLDERS WITH REAL SCREENSHOTS
+     * ─────────────────────────────────────────────
+     * When screenshots are ready, replace each .game-placeholder div with:
+     *
+     *   <img
+     *     src="game-screenshot-01.jpg"
+     *     alt="[describe what's happening visually]"
+     *     class="game-img"
+     *   >
+     *
+     * Use the class .game-img so warm tone/filter styles apply automatically.
+     * The .game-img-wrap and .game-img-wrap::after stay in place.
+     *
+     * Available filenames (add as screenshots are ready):
+     *   game-screenshot-01.jpg through game-screenshot-05.jpg
+     */
+    .game-placeholder {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        display: block;
+    }
+
+    /* Placeholders use the game's actual palette: pale sky, vivid spring green, warm honey wood */
+
+    /* Forest canopy — sky top, bright leaf greens, grassy ground */
+    .game-placeholder--1 {
+        background: linear-gradient(175deg,
+            #C4D8E4 0%, #A8CCA8 18%, #5CAA58 42%, #3A8840 65%, #8AAA78 85%, #A0C090 100%);
+    }
+
+    /* Treehouse — pale sky, tree canopy, warm honey wood planks */
+    .game-placeholder--2 {
+        background: linear-gradient(165deg,
+            #C8D8E8 0%, #90C490 22%, #4AAE50 48%, #C49060 72%, #A87848 90%, #B88858 100%);
+    }
+
+    /* Urban garden — warm stone building, climbing greens, open sky */
+    .game-placeholder--3 {
+        background: linear-gradient(155deg,
+            #9A9490 0%, #7A9878 22%, #5CAA58 50%, #A8C8A0 75%, #C8D8E4 100%);
+    }
+
+    /* Style for real game images once added */
+    .game-img,
+    .game-video {
+        width: 100%;
+        display: block;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        filter: saturate(0.88) sepia(0.04);
+    }
+
+    .game-caption {
+        font-family: 'Lora', Georgia, serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        color: var(--c-near-black);
+        text-align: center;
+        max-width: 480px;
+        line-height: 1.7;
+    }
+
+    .game-dev-note {
+        text-align: center;
+        margin-top: 3rem;
+        font-family: 'Lora', Georgia, serif;
+        font-style: italic;
+        font-size: 0.95rem;
+        color: var(--c-green-deep);
+        opacity: 0.55;
+    }
+
+
+    /* =============================================================
+       SECTION: THE STORY
+       ============================================================= */
+    .s-story {
+        padding: 5rem 28px 6rem;
+        background-color: var(--c-cream-sky);
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-top: -3px;
+        z-index: 1;
+    }
+
+    .s-story::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+            radial-gradient(ellipse 50% 55% at 18% 48%, rgba(62,122,88,0.06) 0%, transparent 100%),
+            radial-gradient(ellipse 50% 55% at 82% 52%, rgba(196,144,90,0.04) 0%, transparent 100%);
+    }
+
+    .s-story .inner {
+        text-align: center;
+    }
+
+    .story-p {
+        font-size: clamp(1rem, 1.8vw, 1.2rem);
+        line-height: 1.85;
+        color: var(--c-near-black);
+        letter-spacing: 0.01em;
+    }
+
+    .story-p + .story-p {
+        margin-top: 1.5rem;
+    }
+
+
+    /* =============================================================
+       SECTION: THE INSPIRATION
+       ============================================================= */
+    .s-inspiration {
+        padding: 7rem 28px;
+        background-color: var(--c-cream-deep);
+        position: relative;
+    }
+
+    .s-inspiration::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(ellipse 60% 55% at 50% 100%, rgba(62,122,88,0.07) 0%, transparent 100%);
+    }
+
+    .inspiration-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 4rem;
+        align-items: center;
+    }
+
+    @media (max-width: 680px) {
+        .inspiration-grid {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        /* Video first on mobile */
+        .inspiration-media { order: -1; }
+    }
+
+    .inspiration-text .eyebrow {
+        margin-bottom: 2rem;
+    }
+
+    .inspiration-body p {
+        font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+        line-height: 2.0;
+        color: var(--c-near-black);
+    }
+
+    .inspiration-body p + p {
+        margin-top: 1.75rem;
+    }
+
+    /*
+     * INSPIRATION MEDIA — two options, pick one:
+     *
+     * Option A (video loop):
+     *   Replace the .inspiration-placeholder div with:
+     *
+     *   <div class="inspiration-media-wrap">
+     *     <video
+     *       class="inspiration-video"
+     *       autoplay muted loop playsinline
+     *       poster="hummingbird-hero-poster.jpg"
+     *       aria-label="A real hummingbird hovering on the 22nd floor of a city building"
+     *     >
+     *       <source src="hummingbird-hero.mp4" type="video/mp4">
+     *     </video>
+     *   </div>
+     *
+     * Option B (still image):
+     *   Replace the .inspiration-placeholder div with:
+     *
+     *   <div class="inspiration-media-wrap">
+     *     <img
+     *       src="hummingbird-hero-poster.jpg"
+     *       alt="A real hummingbird hovering on the 22nd floor of a city building"
+     *       class="inspiration-img"
+     *     >
+     *   </div>
+     */
+    .inspiration-media-wrap {
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow:
+            0 12px 60px rgba(26,58,42,0.18),
+            0 4px 18px rgba(26,58,42,0.10);
+    }
+
+    .inspiration-video,
+    .inspiration-img {
+        display: block;
+        width: 100%;
+        border-radius: 6px;
+    }
+
+    .inspiration-placeholder {
+        width: 100%;
+        aspect-ratio: 3 / 4;
+        max-height: 420px;
+        border-radius: 6px;
+        background: linear-gradient(178deg,
+            #B8CCD8 0%, #A8C4D0 18%, #88A890 38%, #4A8858 60%, #2E5E3A 82%, #1E3A28 100%);
+        box-shadow:
+            0 12px 60px rgba(37,60,48,0.20),
+            0 4px 18px rgba(37,60,48,0.12);
+    }
+
+    /* Label visible inside placeholder until replaced */
+    .inspiration-placeholder-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        font-family: 'Lora', Georgia, serif;
+        font-style: italic;
+        font-size: 1rem;
+        color: rgba(138,175,150,0.50);
+        text-align: center;
+        padding: 2rem;
+        line-height: 1.7;
+    }
+
+
+    /* =============================================================
+       SECTION: STAY CONNECTED
+       ============================================================= */
+    .s-signup {
+        padding: 9rem 28px;
+        background-color: var(--c-cream-sage);
+        text-align: center;
+        position: relative;
+    }
+
+    .s-signup::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(ellipse 70% 58% at 50% 50%, rgba(62,122,88,0.07) 0%, transparent 100%);
+    }
+
+    .signup-headline {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(1.9rem, 5vw, 3.1rem);
+        font-weight: 400;
+        color: var(--c-green-deep);
+        margin-bottom: 1rem;
+    }
+
+    .signup-sub {
+        font-family: 'Lora', Georgia, serif;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--c-near-black);
+        opacity: 0.65;
+        max-width: 420px;
+        margin: 0 auto 3.5rem;
+    }
+
+    /*
+     * ================================================================
+     * MAILCHIMP FORM INTEGRATION
+     * ================================================================
+     *
+     * HOW TO CONNECT THIS FORM TO MAILCHIMP:
+     *
+     * Step 1 — Create a free account at mailchimp.com.
+     *
+     * Step 2 — In Mailchimp, go to:
+     *           Audience → Signup forms → Embedded forms → Unstyled
+     *
+     * Step 3 — From the generated embed code, find the form's action
+     *           attribute. It looks like:
+     *           https://YOURNAME.us##.list-manage.com/subscribe/post?u=XXXXX&amp;id=XXXXX
+     *
+     *           Copy that URL (decode &amp; to just &).
+     *
+     * Step 4 — In this file, find the <form> tag below and replace:
+     *           action="YOUR_MAILCHIMP_ACTION_URL"
+     *           with your actual Mailchimp URL.
+     *
+     * Step 5 — From the Mailchimp embed code, copy the hidden <input>
+     *           fields that look like:
+     *             <input type="hidden" name="u" value="XXXXX">
+     *             <input type="hidden" name="id" value="XXXXX">
+     *
+     *           Paste them inside the <form> below, where marked.
+     *
+     * The visual design of the form will not change.
+     * You are only updating the action URL and adding hidden fields.
+     * ================================================================
+     */
+    .signup-form {
+        display: flex;
+        max-width: 455px;
+        margin: 0 auto;
+        gap: 0;
+        position: relative; /* for the .d-none honeypot */
+    }
+
+    .signup-email {
+        flex: 1;
+        min-width: 0;
+        padding: 0.95rem 1.2rem;
+        font-family: 'Lora', Georgia, serif;
+        font-size: 1.05rem;
+        font-style: italic;
+        color: var(--c-near-black);
+        background: #FFFCF5;
+        border: 1.5px solid rgba(138,175,150,0.42);
+        border-right: none;
+        border-radius: 4px 0 0 4px;
+        outline: none;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .signup-email::placeholder {
+        color: rgba(138,175,150,0.72);
+        font-style: italic;
+    }
+
+    .signup-email:focus {
+        border-color: var(--c-green-mid);
+        box-shadow: 0 0 0 3px rgba(45,106,79,0.09);
+    }
+
+    .signup-btn {
+        padding: 0.95rem 1.65rem;
+        background-color: var(--c-green-deep);
+        color: var(--c-cream);
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 1.15rem;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background-color 0.3s ease;
+        line-height: 1;
+    }
+
+    .signup-btn:hover {
+        background-color: var(--c-green-mid);
+    }
+
+    .signup-btn:focus-visible {
+        outline: 2px solid var(--c-green-mid);
+        outline-offset: 2px;
+    }
+
+    @media (max-width: 460px) {
+        .signup-form {
+            flex-direction: column;
+        }
+
+        .signup-email {
+            border-right: 1.5px solid rgba(138,175,150,0.42);
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .signup-btn {
+            border-radius: 0 0 4px 4px;
+            padding: 0.95rem 1.2rem;
+        }
+    }
+
+    /* Shown after placeholder-mode submit (dev only) */
+    .signup-thankyou {
+        display: none;
+        text-align: center;
+    }
+
+    .thankyou-bird {
+        display: block;
+        width: 110px;
+        opacity: 0.75;
+        margin: 0 auto 2rem;
+        animation: bird-hover 3.5s ease-in-out infinite;
+    }
+
+    @keyframes bird-hover {
+        0%, 100% { transform: translateY(0px); }
+        50%       { transform: translateY(-8px); }
+    }
+
+    .signup-thankyou-title {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        font-weight: 500;
+        font-style: italic;
+        color: var(--c-green-deep);
+        margin-bottom: 1.2rem;
+    }
+
+    .signup-thankyou-middle {
+        font-family: 'Lora', Georgia, serif;
+        font-size: 1.1rem;
+        color: var(--c-near-black);
+        margin-bottom: 0.6rem;
+    }
+
+    .signup-thankyou-sub {
+        font-family: 'Lora', Georgia, serif;
+        font-size: 0.95rem;
+        color: var(--c-grey-green);
+        font-style: italic;
+    }
+
+    /* Mailchimp bot trap — keep hidden */
+    .mc-trap { position: absolute; left: -5000px; }
+
+    /* Floating petals */
+    .petal {
+        position: fixed;
+        top: -30px;
+        pointer-events: none;
+        z-index: 9998;
+        opacity: 0;
+        animation: petal-fall linear forwards;
+    }
+
+    @keyframes petal-fall {
+        0%   { opacity: 0;   transform: translateY(0)      rotate(0deg)   scale(1); }
+        8%   { opacity: 0.8; }
+        85%  { opacity: 0.6; }
+        100% { opacity: 0;   transform: translateY(105vh)  rotate(540deg) scale(0.7); }
+    }
+
+
+    /* =============================================================
+       FOOTER
+       ============================================================= */
+    .s-footer {
+        padding: 5.5rem 28px 3.5rem;
+        background-color: var(--c-green-deep);
+        text-align: center;
+    }
+
+    /* Decorative feather — inline SVG, no external assets required */
+    /*
+     * ASSET: Once studio-logo.svg is ready, replace the <svg> feather
+     * below with:
+     *   <img src="studio-logo.svg" alt="Hover Studio" class="footer-logo" width="40">
+     */
+    .footer-rule {
+        display: block;
+        width: 40px;
+        height: 1px;
+        background: rgba(253, 246, 236, 0.30);
+        margin: 0 auto 2.5rem;
+        border: none;
+    }
+
+    .footer-studio {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 1.3rem;
+        font-weight: 400;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(253,246,236,0.82);
+        margin-bottom: 0.65rem;
+    }
+
+    .footer-note {
+        font-family: 'Lora', Georgia, serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        color: rgba(253, 246, 236, 0.65);
+        margin-bottom: 2.75rem;
+    }
+
+    .footer-socials {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.2rem;
+        list-style: none;
+        margin-bottom: 3.25rem;
+    }
+
+    .footer-socials a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 33px;
+        height: 33px;
+        border: 1px solid rgba(138,175,150,0.24);
+        border-radius: 50%;
+        color: rgba(138,175,150,0.60);
+        text-decoration: none;
+        transition: border-color 0.3s, color 0.3s;
+    }
+
+    .footer-socials a:hover {
+        border-color: rgba(138,175,150,0.65);
+        color: rgba(253,246,236,0.80);
+    }
+
+    .footer-socials svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+    }
+
+    .footer-copy {
+        font-family: 'Lora', Georgia, serif;
+        font-size: 0.90rem;
+        letter-spacing: 0.05em;
+        color: rgba(253, 246, 236, 0.35);
+    }
+
+    </style>
+</head>
+<body>
+
+
+<!-- ================================================================
+     NAV
+     ================================================================ -->
+<nav class="s-nav" aria-label="Site navigation">
+    <a class="nav-wordmark" href="#">Hover Studio</a>
+    <ul class="nav-links">
+        <li><a href="#the-game">The Game</a></li>
+        <li><a href="#the-story">The Story</a></li>
+        <li><a href="#signup" class="nav-cta">Stay Close</a></li>
+    </ul>
+</nav>
+
+<!-- ================================================================
+     SECTION 1 — HERO
+     ================================================================ -->
+<section class="s-hero" aria-label="A Thousand Wingbeats by Hover Studio">
+
+    <video
+        class="hero-bg-video"
+        src="Hero.mov"
+        autoplay
+        muted
+        loop
+        playsinline
+        aria-hidden="true"
+    ></video>
+
+    <div class="hero-vignette" aria-hidden="true"></div>
+
+    <div class="hero-content">
+        <span class="hero-presents">Hover Studio presents</span>
+        <h1 class="hero-title">A Thousand Wingbeats</h1>
+        <em class="hero-tagline">A game about coming home.</em>
+    </div>
+
+    <div class="hero-cue" aria-hidden="true">
+        <div class="hero-cue-line"></div>
+        <div class="hero-cue-chevron"></div>
+    </div>
+
+</section>
+
+
+<!-- ================================================================
+     SECTION 2 — THE STORY
+     ================================================================ -->
+<section class="s-story" aria-label="The story">
+    <div class="inner">
+
+        <p class="story-p reveal">
+            A hummingbird returns to the neighborhood she has always known. 
+            The gardens are sparse now. The flowers are few. She could leave. She doesn't.
+        </p>
+
+        <p class="story-p reveal d2">
+            <span class="title-inline">A Thousand Wingbeats</span> is a game about building a nest, 
+            one careful material at a time, in a world that is slowly learning to welcome her back. About the quiet things that happen when something small refuses to leave.
+        </p>
+
+    </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION 3 — THE GAME
+     ================================================================ -->
+<section class="s-game" id="the-game" aria-label="Game footage">
+    <div class="inner--wide">
+
+        <span class="eyebrow reveal">The game</span>
+
+        <div class="game-gallery">
+
+            <!--
+            FRAME 1 — Replace placeholder with game-screenshot-01.jpg when ready.
+            See the CSS comment above (.game-placeholder) for exact replacement markup.
+            -->
+            <div class="game-frame reveal">
+                <div class="game-img-wrap">
+                    <video
+                        class="game-video"
+                        src="CarryTwig.mov"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                    ></video>
+                </div>
+                <p class="game-caption">She carries one thing at a time. Every trip back matters.</p>
+            </div>
+
+            <!-- FRAME 2 -->
+            <div class="game-frame reveal d1">
+                <div class="game-img-wrap">
+                    <video
+                        class="game-video"
+                        src="BirdFeeding.mov"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                    ></video>
+                </div>
+                <p class="game-caption">The world fills with flowers nobody planted.</p>
+            </div>
+
+            <!-- FRAME 3 -->
+            <div class="game-frame reveal d2">
+                <div class="game-img-wrap">
+                    <video
+                        class="game-video"
+                        src="NestSunset.mov"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                    ></video>
+                </div>
+                <p class="game-caption">The nest grows one layer at a time. So does everything else.</p>
+            </div>
+
+            <!--
+            TO ADD MORE FRAMES (up to game-screenshot-05.jpg):
+            Copy one <div class="game-frame"> block above and update:
+              - class="game-placeholder--1/2/3" (rotate for variety)
+              - aria-label with the correct filename
+              - the caption text
+            -->
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION 4 — THE INSPIRATION
+     ================================================================ -->
+<section class="s-inspiration" id="the-story" aria-label="Where the game began">
+    <div class="inner--full">
+        <div class="inspiration-grid">
+
+            <!-- Text column -->
+            <div class="inspiration-text reveal">
+                <span class="eyebrow">Where it began</span>
+                <div class="inspiration-body">
+                    <p>
+                        She came to our balcony on the 22nd floor. Completely committed to something the city had made
+                        very difficult.
+                    </p>
+                    <p>
+                        There was wonder. But also something that worried me. Why was
+                        she up here? What had happened to the world below that sent her this far?
+                    </p>
+                    <p>I put out a feeder. She came back.</p>
+                    <p>
+                        I kept thinking about where she went when she left. Whether she had
+                        somewhere to return to.
+                    </p>
+                    <p>That question became this game.</p>
+                </div>
+            </div>
+
+            <!-- Media column -->
+            <div class="inspiration-media reveal d2">
+                <div class="inspiration-media-wrap">
+                    <video
+                        class="inspiration-video"
+                        src="WhereItBegan.MOV"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                    ></video>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION 6 — STAY CONNECTED
+     ================================================================ -->
+<section class="s-signup" id="signup" aria-labelledby="signup-headline">
+
+    <div class="signup-intro" id="signup-intro">
+        <h2 class="signup-headline reveal" id="signup-headline">Want to follow her home?</h2>
+        <p class="signup-sub reveal d1">
+            Updates on development, the Steam page when it goes live,
+            and the occasional small thing worth sharing.
+        </p>
+    </div>
+
+    <!--
+    MAILCHIMP: Update action="" with your Mailchimp form action URL.
+    Add hidden Mailchimp fields inside the form where marked.
+    See CSS comment above .signup-form for step-by-step instructions.
+    -->
+    <form
+        id="signup-form"
+        class="signup-form reveal d2"
+        action="https://gmail.us7.list-manage.com/subscribe/post-json?u=ce310668c948c6a6a74aa7889&amp;id=49765cfedc&amp;f_id=0045ede4f0"
+        method="post"
+        novalidate
+        aria-label="Email signup — stay updated on A Thousand Wingbeats"
+    >
+        <!--
+        MAILCHIMP HIDDEN FIELDS — paste here:
+        <input type="hidden" name="u" value="YOUR_U_VALUE">
+        <input type="hidden" name="id" value="YOUR_ID_VALUE">
+        -->
+
+        <!-- Mailchimp bot honeypot — do not remove, do not show to users -->
+        <div class="mc-trap" aria-hidden="true">
+            <input type="text" name="b_ce310668c948c6a6a74aa7889_49765cfedc" tabindex="-1" value="">
+        </div>
+
+        <label for="signup-email" class="sr-only">Your email address</label>
+        <input
+            id="signup-email"
+            type="email"
+            name="EMAIL"
+            class="signup-email"
+            placeholder="your@email.com"
+            required
+            autocomplete="email"
+        >
+
+        <button type="submit" class="signup-btn">Stay close</button>
+
+    </form>
+
+    <div class="signup-thankyou" id="signup-thankyou" aria-live="polite" role="status">
+        <img class="thankyou-bird" src="HoverStudioLogo.png" alt="" aria-hidden="true">
+        <p class="signup-thankyou-title">She's on her way.</p>
+        <p class="signup-thankyou-middle">Thank you for being here before it begins.</p>
+        <p class="signup-thankyou-sub">We'll let you know when she arrives.</p>
+    </div>
+
+
+</section>
+
+
+<!-- ================================================================
+     SECTION 7 — FOOTER
+     ================================================================ -->
+<footer class="s-footer" aria-label="Footer">
+
+    <!--
+    ASSET: Replace this SVG feather with studio-logo.svg when it exists:
+      <img src="studio-logo.svg" alt="Hover Studio" class="footer-feather" width="32">
+    -->
+    <hr class="footer-rule" aria-hidden="true">
+
+    <p class="footer-studio">Hover Studio</p>
+    <p class="footer-note">A Thousand Wingbeats is coming to Steam in 2026.</p>
+
+    <!--
+    SOCIAL LINKS — replace each href="#" with the real URL when accounts exist.
+    To add more platforms, copy a <li> block and update the aria-label and SVG path.
+    To remove a platform, delete its <li>.
+    -->
+    <ul class="footer-socials">
+
+        <li>
+            <a href="#" aria-label="Hover Studio on Twitter / X (coming soon)">
+                <!-- X (Twitter) icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.261 5.635 5.903-5.635zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" aria-label="Hover Studio on Instagram (coming soon)">
+                <!-- Instagram icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+            </a>
+        </li>
+
+        <li>
+            <a href="#" aria-label="A Thousand Wingbeats on Steam (coming soon)">
+                <!-- Steam icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.497 1.009 2.452-.397.957-1.494 1.41-2.455 1.015zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/>
+                </svg>
+            </a>
+        </li>
+
+    </ul>
+
+    <p class="footer-copy">&copy; 2026 Hover Studio</p>
+
+</footer>
+
+
+<!-- ================================================================
+     JAVASCRIPT — Scroll reveal (vanilla, no dependencies)
+     ================================================================ -->
+<script>
+(function () {
+    'use strict';
+
+    // Intersection Observer — adds .visible to .reveal elements as they enter view
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // fire once only
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(function (el) {
+        observer.observe(el);
+    });
+
+
+    // Floating petals on signup
+    function launchPetals() {
+        var colors = ['#C4905A', '#3E7A58', '#A8C5A0', '#E2B97A', '#7A9E8A'];
+        var petalShapes = [
+            'M0,5 C2,0 8,0 10,5 C8,10 2,10 0,5Z',
+            'M5,0 C9,2 10,8 5,10 C0,8 0,2 5,0Z',
+            'M0,3 C1,0 9,0 10,3 C9,7 6,10 5,10 C4,10 1,7 0,3Z',
+        ];
+        for (var i = 0; i < 28; i++) {
+            (function(i) {
+                setTimeout(function() {
+                    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    var size = 8 + Math.random() * 10;
+                    svg.setAttribute('width', size);
+                    svg.setAttribute('height', size);
+                    svg.setAttribute('viewBox', '0 0 10 10');
+                    svg.classList.add('petal');
+                    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('d', petalShapes[Math.floor(Math.random() * petalShapes.length)]);
+                    path.setAttribute('fill', colors[Math.floor(Math.random() * colors.length)]);
+                    path.setAttribute('fill-opacity', '0.75');
+                    svg.appendChild(path);
+                    var duration = 3.5 + Math.random() * 3;
+                    svg.style.left = (Math.random() * 100) + 'vw';
+                    svg.style.animationDuration = duration + 's';
+                    svg.style.animationDelay = '0s';
+                    document.body.appendChild(svg);
+                    setTimeout(function() { svg.remove(); }, (duration + 0.5) * 1000);
+                }, i * 80);
+            })(i);
+        }
+    }
+
+    // Form — JSONP submission so we show our own confirmation instead of Mailchimp's page
+    var form = document.getElementById('signup-form');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var action = form.getAttribute('action');
+            var email = form.querySelector('input[name="EMAIL"]');
+            if (!email || !email.value) return;
+
+            // Build JSONP URL
+            var callbackName = 'mcCallback_' + Date.now();
+            var url = action
+                + '&EMAIL=' + encodeURIComponent(email.value)
+                + '&c=' + callbackName;
+
+            window[callbackName] = function (data) {
+                delete window[callbackName];
+                document.head.removeChild(script);
+                var thanks = document.getElementById('signup-thankyou');
+                var intro = document.getElementById('signup-intro');
+                if (thanks) {
+                    if (intro) intro.style.display = 'none';
+                    form.style.display = 'none';
+                    thanks.style.display = 'block';
+                    launchPetals();
+                }
+            };
+
+            var script = document.createElement('script');
+            script.src = url;
+            document.head.appendChild(script);
+        });
+    }
+
+}());
+</script>
+
+<script>
+    if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname);
+    }
+</script>
+
+</body>
+</html>
