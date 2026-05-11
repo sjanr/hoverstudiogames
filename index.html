@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#253C30">
+    <meta name="theme-color" content="#EAEff5">
     <title>Hover Studio Games</title>
     <link rel="icon" type="image/png" href="HoverStudioLogo.png">
     <meta name="description" content="A short, quiet game about a hummingbird building a nest in a world that is slowly learning to welcome her back.">
@@ -208,19 +208,24 @@
 
     @media (max-width: 600px) {
         .s-nav {
-            padding: 0 1.2rem;
-            gap: 1rem;
+            padding: env(safe-area-inset-top) 1.2rem 0;
+            height: calc(52px + env(safe-area-inset-top));
+            align-items: flex-end;
+            padding-bottom: 0;
+            gap: 0.5rem;
         }
         .nav-wordmark {
-            font-size: 0.72rem;
-            letter-spacing: 0.1em;
+            font-size: 0.68rem;
+            letter-spacing: 0.06em;
+            padding-bottom: 14px;
         }
         .nav-links {
-            gap: 1rem;
+            gap: 0.75rem;
+            padding-bottom: 14px;
         }
         .nav-links a {
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
+            font-size: 0.65rem;
+            letter-spacing: 0.06em;
         }
     }
 
