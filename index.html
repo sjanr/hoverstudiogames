@@ -18,8 +18,11 @@
     <meta property="og:image" content="social-preview.jpg">
     -->
 
-    <!-- Preload hero video so it starts fetching before the <video> tag is parsed -->
-    <link rel="preload" as="video" href="HeroTeaser.mp4" type="video/mp4">
+    <!--
+    No <link rel="preload"> for the hero video: it ships in two codecs and a
+    preload hint can only name one file, so AV1-capable browsers would download
+    both. The <video> below uses preload="auto" instead.
+    -->
 
     <!-- Google Fonts: Cormorant Garamond (display) + Lora (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1009,15 +1012,24 @@
      ================================================================ -->
 <section class="s-hero" aria-label="A Thousand Wingbeats by Hover Studio Games">
 
+    <!--
+    Two encodes of the same footage. Browsers take the first source they can
+    decode, and download only that one:
+      1. AV1 1080p (6.1MB) — Chrome, Edge, Firefox, Safari 17+ on newer hardware
+      2. H.264 720p (5.4MB) — everything else
+    -->
     <video
         class="hero-bg-video"
-        src="HeroTeaser.mp4"
         autoplay
         muted
         loop
         playsinline
+        preload="auto"
         aria-hidden="true"
-    ></video>
+    >
+        <source src="HeroTeaser.av1.mp4" type="video/mp4; codecs=av01.0.08M.08">
+        <source src="HeroTeaser.mp4" type="video/mp4">
+    </video>
 
     <div class="hero-vignette" aria-hidden="true"></div>
 
