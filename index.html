@@ -513,8 +513,48 @@
         width: 100%;
         display: block;
         aspect-ratio: 16 / 9;
+        height: auto;   /* without this, a width/height attribute on the tag
+                           fixes the box height and aspect-ratio is ignored */
         object-fit: cover;
         filter: saturate(0.88) sepia(0.04);
+    }
+
+    /* The gameplay clip and the before/after pair sit side by side, each with
+       its caption underneath. The column ratio is picked so the 4:5 video and
+       the two stacked 16:9 frames finish at the same height: the video is
+       1.25x its width, the stack is 1.125x its width plus one row gap. */
+    .game-showcase {
+        display: grid;
+        grid-template-columns: 0.929fr 1fr;
+        gap: 2rem;
+        align-items: start;
+        width: 100%;
+    }
+
+    /* Portrait clip — 4:5 source, shown whole and never cropped */
+    .game-video--portrait {
+        aspect-ratio: 4 / 5;
+    }
+
+    /* Before over after, sharing the right column */
+    .game-ba {
+        display: grid;
+        gap: 1.1rem;
+        width: 100%;
+    }
+
+    .game-img--ba {
+        aspect-ratio: 16 / 9;
+        filter: none;   /* shown at true colour, no warm grade */
+    }
+
+    /* Below this width the two columns get too narrow to read, so the whole
+       showcase becomes a single stack. */
+    @media (max-width: 880px) {
+        .game-showcase {
+            grid-template-columns: 1fr;
+            gap: 3.5rem;
+        }
     }
 
     .game-caption {
@@ -1001,8 +1041,8 @@
 <nav class="s-nav" aria-label="Site navigation">
     <a class="nav-wordmark" href="#">Hover Studio Games</a>
     <ul class="nav-links">
-        <li><a href="#the-game">The Game</a></li>
         <li><a href="#the-story">The Story</a></li>
+        <li><a href="#the-game">The Game</a></li>
         <li><a href="#signup" class="nav-cta">Stay Close</a></li>
     </ul>
 </nav>
@@ -1066,84 +1106,8 @@
     </div>
 </section>
 
-
 <!-- ================================================================
-     SECTION 3 — THE GAME
-     ================================================================ -->
-<section class="s-game" id="the-game" aria-label="Game footage">
-    <div class="inner--wide">
-
-        <span class="eyebrow reveal">The game</span>
-
-        <div class="game-gallery">
-
-            <!--
-            FRAME 1 — Replace placeholder with game-screenshot-01.jpg when ready.
-            See the CSS comment above (.game-placeholder) for exact replacement markup.
-            -->
-            <div class="game-frame reveal">
-                <div class="game-img-wrap">
-                    <video
-                        class="game-video"
-                        data-src="NestSunset.mp4"
-                        autoplay
-                        muted
-                        loop
-                        playsinline
-                        preload="none"
-                    ></video>
-                </div>
-                <p class="game-caption">The nest grows one layer at a time. So does everything else.</p>
-            </div>
-
-            <!-- FRAME 2 -->
-            <div class="game-frame reveal d1">
-                <div class="game-img-wrap">
-                    <video
-                        class="game-video"
-                        data-src="FeedVid2.mp4"
-                        autoplay
-                        muted
-                        loop
-                        playsinline
-                        preload="none"
-                    ></video>
-                </div>
-                <p class="game-caption">She didn't plant them. Her presence did.</p>
-            </div>
-
-            <!-- FRAME 3 -->
-            <div class="game-frame reveal d2">
-                <div class="game-img-wrap">
-                    <video
-                        class="game-video"
-                        data-src="CarryTwig.mp4"
-                        autoplay
-                        muted
-                        loop
-                        playsinline
-                        preload="none"
-                    ></video>
-                </div>
-                <p class="game-caption">She carries one thing at a time. Every trip back matters.</p>
-            </div>
-
-            <!--
-            TO ADD MORE FRAMES (up to game-screenshot-05.jpg):
-            Copy one <div class="game-frame"> block above and update:
-              - class="game-placeholder--1/2/3" (rotate for variety)
-              - aria-label with the correct filename
-              - the caption text
-            -->
-
-        </div>
-
-    </div>
-</section>
-
-
-<!-- ================================================================
-     SECTION 4 — THE INSPIRATION
+     SECTION 3 — WHERE IT BEGAN
      ================================================================ -->
 <section class="s-inspiration" id="the-story" aria-label="Where the game began">
     <div class="inner--full">
@@ -1186,6 +1150,72 @@
             </div>
 
         </div>
+    </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION 4 — THE GAME
+     ================================================================ -->
+<section class="s-game" id="the-game" aria-label="Game footage">
+    <div class="inner--full">
+
+        <span class="eyebrow reveal">The game</span>
+
+        <div class="game-showcase">
+
+            <!--
+            LEFT — uncut gameplay through a full day/night cycle. The source is
+            4:5 portrait and is shown whole, never cropped. Two encodes, AV1
+            first; browsers download only the one they can decode.
+            -->
+            <div class="game-frame reveal">
+                <div class="game-img-wrap">
+                    <video
+                        class="game-video game-video--portrait"
+                        data-lazy
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                    >
+                        <source data-src="Gameplay.av1.mp4" type="video/mp4; codecs=av01.0.08M.08">
+                        <source data-src="Gameplay.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p class="game-caption">She carries one thing at a time. Every trip back matters.</p>
+            </div>
+
+            <!-- RIGHT — the same corner of the garden, early on and later -->
+            <div class="game-frame reveal d1">
+                <div class="game-ba">
+                    <div class="game-img-wrap">
+                        <img
+                            class="game-img game-img--ba"
+                            src="Before.jpg"
+                            alt="A corner of the garden early on: empty clay pots, plain grass, a leaning picket fence."
+                            loading="lazy"
+                            width="1200"
+                            height="675"
+                        >
+                    </div>
+                    <div class="game-img-wrap">
+                        <img
+                            class="game-img game-img--ba"
+                            src="After.jpg"
+                            alt="The same corner later: the pots are full, lavender and pink and yellow flowers crowd the path, the planting has thickened."
+                            loading="lazy"
+                            width="1200"
+                            height="675"
+                        >
+                    </div>
+                </div>
+                <p class="game-caption">She didn't plant them. Her presence did.</p>
+            </div>
+
+        </div>
+
     </div>
 </section>
 
@@ -1328,14 +1358,21 @@
         observer.observe(el);
     });
 
-    // Lazy-load below-fold videos — start fetching 400px before they enter view
-    var lazyVids = document.querySelectorAll('video[data-src]');
+    // Lazy-load below-fold videos — start fetching 400px before they enter view.
+    // Two shapes are supported: a single-file video carrying data-src itself,
+    // and a multi-codec video marked data-lazy whose <source> children carry it.
+    var lazyVids = document.querySelectorAll('video[data-src], video[data-lazy]');
     if (lazyVids.length) {
         var vidObserver = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
                     var v = entry.target;
-                    v.src = v.dataset.src;
+                    var srcs = v.querySelectorAll('source[data-src]');
+                    if (srcs.length) {
+                        srcs.forEach(function (s) { s.src = s.dataset.src; });
+                    } else if (v.dataset.src) {
+                        v.src = v.dataset.src;
+                    }
                     v.load();
                     vidObserver.unobserve(v);
                 }
