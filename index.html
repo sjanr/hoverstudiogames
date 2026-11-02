@@ -1,33 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-CA">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#EAEff5">
-    <title>Hover Studio Games</title>
-    <link rel="icon" type="image/png" href="HoverStudioGamesLogo.png?v=2">
-    <meta name="description" content="A short, quiet game about a hummingbird building a nest in a world that is slowly learning to welcome her back.">
+    <title>A Thousand Wingbeats — Hover Studio Games</title>
+    <meta name="description" content="A wordless story about motherhood. An Anna's hummingbird comes home to build a nest. Coming to Steam in early 2028 from Hover Studio Games, Burnaby, B.C.">
+    <link rel="canonical" href="https://hoverstudiogames.com/">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="A Thousand Wingbeats — Hover Studio Games">
-    <meta property="og:description" content="She came back to find home. She ended up becoming home for others.">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png">
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+    <!-- Open Graph (Facebook, LinkedIn, iMessage, Slack, Discord…) -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://hoverstudiogames.com">
-    <!--
-    ASSET: Uncomment and update once you have a social preview image:
-    <meta property="og:image" content="social-preview.jpg">
-    -->
+    <meta property="og:site_name" content="Hover Studio Games">
+    <meta property="og:locale" content="en_CA">
+    <meta property="og:url" content="https://hoverstudiogames.com/">
+    <meta property="og:title" content="A Thousand Wingbeats — Hover Studio Games">
+    <meta property="og:description" content="A wordless story about motherhood. An Anna's hummingbird returns to the neighbourhood where she was born to build a nest for the life to come.">
+    <meta property="og:image" content="https://hoverstudiogames.com/img/social-preview.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="A small nest on a ledge at sunset, looking out over a treehouse and a quiet garden. A scene from A Thousand Wingbeats.">
+
+    <!-- Twitter / X / Bluesky -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="A Thousand Wingbeats — Hover Studio Games">
+    <meta name="twitter:description" content="A wordless story about motherhood. An Anna's hummingbird returns to the neighbourhood where she was born to build a nest for the life to come.">
+    <meta name="twitter:image" content="https://hoverstudiogames.com/img/social-preview.jpg">
+    <meta name="twitter:image:alt" content="A small nest on a ledge at sunset, looking out over a treehouse and a quiet garden. A scene from A Thousand Wingbeats.">
 
     <!--
-    No <link rel="preload"> for the hero video: it ships in two codecs and a
-    preload hint can only name one file, so AV1-capable browsers would download
-    both. The <video> below uses preload="auto" instead.
+    No <link rel="preload"> for the hero video: it ships in several encodes and
+    a preload hint can only name one file, so some browsers would download two.
+    The <video> below uses preload="auto" and a poster frame instead.
     -->
 
-    <!-- Google Fonts: Cormorant Garamond (display) + Lora (body) -->
+    <!-- Google Fonts: Playfair Display (display) + Lora (body), only the weights in use -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 
     <style>
 
@@ -236,6 +249,25 @@
         }
     }
 
+    /* Smallest phones: four links plus the wordmark need a little less air */
+    @media (max-width: 400px) {
+        .s-nav {
+            padding-left: 0.85rem;
+            padding-right: 0.85rem;
+        }
+        .nav-wordmark {
+            font-size: 0.6rem;
+            letter-spacing: 0.03em;
+        }
+        .nav-links {
+            gap: 0.55rem;
+        }
+        .nav-links a {
+            font-size: 0.6rem;
+            letter-spacing: 0.03em;
+        }
+    }
+
 
 
     /* =============================================================
@@ -252,6 +284,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 2;
         /* Mask: rounds the bottom of the image itself, Pixar-style */
         border-radius: 0 0 50% 50% / 0 0 70px 70px;
     }
@@ -321,6 +354,49 @@
         color: rgba(253,246,236, 0.90);
         font-weight: 400;
         letter-spacing: 0.02em;
+    }
+
+    /* "She could leave. She doesn't." — the emotional turn */
+    .hero-beat {
+        display: block;
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: clamp(1.25rem, 3vw, 1.75rem);
+        color: rgba(253,246,236, 0.96);
+        margin-top: 1.6rem;
+        text-shadow: 0 1px 16px rgba(0,0,0,0.35);
+    }
+
+    /* "Watch the First Look" — used in the hero and after the egg */
+    .btn-firstlook {
+        display: inline-block;
+        margin-top: 2.2rem;
+        padding: 0.85rem 1.7rem;
+        font-family: 'Lora', Georgia, serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(253,246,236, 0.96);
+        text-decoration: none;
+        border: 1px solid rgba(253,246,236, 0.6);
+        border-radius: 999px;
+        background: rgba(10,18,10,0.18);
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-firstlook:hover {
+        background-color: rgba(253,246,236, 0.95);
+        border-color: rgba(253,246,236, 0.95);
+        color: var(--c-green-deep);
+    }
+
+    .btn-firstlook:focus-visible {
+        outline: 2px solid rgba(253,246,236, 0.9);
+        outline-offset: 3px;
+    }
+
+    .s-egg .btn-firstlook {
+        margin-top: 0;
     }
 
     /* Scroll cue — fades in after 2.8s */
@@ -410,7 +486,7 @@
 
 
     /* =============================================================
-       SECTION: THE GAME
+       SECTION: THE GAME — a vertical scroll of beats, following the trailer
        ============================================================= */
     .s-game {
         padding: 7rem 28px 8rem;
@@ -428,193 +504,265 @@
 
     .s-game .eyebrow {
         text-align: center;
-        margin-bottom: 4.5rem;
+        margin-bottom: 2rem;
     }
 
-    .game-gallery {
-        display: flex;
-        flex-direction: column;
-        gap: 4.5rem;
+    .game-intro {
+        text-align: center;
+        font-size: clamp(1.1rem, 2.2vw, 1.3rem);
+        line-height: 1.9;
+        max-width: 760px;
+        margin: 0 auto 6rem;
+        color: var(--c-near-black);
     }
 
-    .game-frame {
+    /* Each beat: one clip, one or two lines beside it.
+       Beats alternate sides; on narrow screens the text sits underneath. */
+    .game-beats {
         display: flex;
         flex-direction: column;
+        gap: 7rem;
+    }
+
+    .beat {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 3rem;
         align-items: center;
-        gap: 1.1rem;
     }
 
-    /* Wrapper adds the warm vignette on top of the image */
-    .game-img-wrap {
+    .beat--flip {
+        grid-template-columns: 1fr 1.6fr;
+    }
+
+    .beat--flip .clip {
+        order: 2;
+    }
+
+    .beat-text {
+        max-width: 400px;
+    }
+
+    /* A short amber rule, like a breath before each line */
+    .beat-text::before {
+        content: '';
+        display: block;
+        width: 36px;
+        height: 1px;
+        background: var(--c-amber);
+        opacity: 0.8;
+        margin-bottom: 1.6rem;
+    }
+
+    /* Her story, in the same voice as "She could leave. She doesn't." */
+    .beat-line {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: clamp(1.45rem, 2.3vw, 1.95rem);
+        line-height: 1.35;
+        color: var(--c-green-deep);
+    }
+
+    /* The design fact underneath, quieter */
+    .beat-sub {
+        font-family: 'Lora', Georgia, serif;
+        font-size: clamp(0.95rem, 1.3vw, 1.02rem);
+        line-height: 1.8;
+        color: var(--c-near-black);
+        opacity: 0.68;
+        margin-top: 1.2rem;
+        max-width: 340px;
+    }
+
+    @media (max-width: 760px) {
+        .game-beats {
+            gap: 5rem;
+        }
+
+        .beat,
+        .beat--flip {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .beat--flip .clip {
+            order: 0;
+        }
+
+        .beat-text {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .beat-text::before {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1.2rem;
+        }
+
+        .beat-sub {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    /* Gentle text fade as a beat scrolls into view (no slide) */
+    .fade {
+        opacity: 0;
+        transition: opacity 1.8s ease;
+    }
+
+    .fade.visible {
+        opacity: 1;
+    }
+
+
+    /* -------------------------------------------------------------
+       CLIP — a 16:9 muted loop with a labelled placeholder behind it.
+
+       The placeholder (dashed box, filename, description) shows until
+       the clip's poster or video actually loads, then disappears. So to
+       fill a beat, put the web files into clips/ with the names shown:
+         clips/beat-01-arrival.mov       ProRes master (git-ignored, never shipped)
+         clips/beat-01-arrival.av1.mp4   AV1 720p30, tried first
+         clips/beat-01-arrival.mp4       H.264 720p30 fallback
+         clips/beat-01-arrival.jpg   its poster (first frame)
+       No HTML changes needed.
+       ------------------------------------------------------------- */
+    .clip {
         position: relative;
         width: 100%;
+        aspect-ratio: 16 / 9;
         border-radius: 6px;
         overflow: hidden;
+        min-width: 0;
         box-shadow:
             0 5px 40px rgba(26,58,42,0.13),
             0 2px 10px rgba(26,58,42,0.07);
     }
 
-    .game-img-wrap::after {
-        content: '';
+    .clip-video {
         position: absolute;
         inset: 0;
-        border-radius: 6px;
-        background: radial-gradient(ellipse at center, transparent 40%, rgba(13,18,12,0.22) 100%);
-        pointer-events: none;
-    }
-
-    /*
-     * REPLACING PLACEHOLDERS WITH REAL SCREENSHOTS
-     * ─────────────────────────────────────────────
-     * When screenshots are ready, replace each .game-placeholder div with:
-     *
-     *   <img
-     *     src="game-screenshot-01.jpg"
-     *     alt="[describe what's happening visually]"
-     *     class="game-img"
-     *   >
-     *
-     * Use the class .game-img so warm tone/filter styles apply automatically.
-     * The .game-img-wrap and .game-img-wrap::after stay in place.
-     *
-     * Available filenames (add as screenshots are ready):
-     *   game-screenshot-01.jpg through game-screenshot-05.jpg
-     */
-    .game-placeholder {
         width: 100%;
-        aspect-ratio: 16 / 9;
-        display: block;
-    }
-
-    /* Placeholders use the game's actual palette: pale sky, vivid spring green, warm honey wood */
-
-    /* Forest canopy — sky top, bright leaf greens, grassy ground */
-    .game-placeholder--1 {
-        background: linear-gradient(175deg,
-            #C4D8E4 0%, #A8CCA8 18%, #5CAA58 42%, #3A8840 65%, #8AAA78 85%, #A0C090 100%);
-    }
-
-    /* Treehouse — pale sky, tree canopy, warm honey wood planks */
-    .game-placeholder--2 {
-        background: linear-gradient(165deg,
-            #C8D8E8 0%, #90C490 22%, #4AAE50 48%, #C49060 72%, #A87848 90%, #B88858 100%);
-    }
-
-    /* Urban garden — warm stone building, climbing greens, open sky */
-    .game-placeholder--3 {
-        background: linear-gradient(155deg,
-            #9A9490 0%, #7A9878 22%, #5CAA58 50%, #A8C8A0 75%, #C8D8E4 100%);
-    }
-
-    /* Style for real game images once added */
-    .game-img,
-    .game-video {
-        width: 100%;
-        display: block;
-        aspect-ratio: 16 / 9;
-        height: auto;   /* without this, a width/height attribute on the tag
-                           fixes the box height and aspect-ratio is ignored */
+        height: 100%;
         object-fit: cover;
-        filter: saturate(0.88) sepia(0.04);
+        opacity: 0;
+        transition: opacity 0.8s ease;
     }
 
-    /* The gameplay clip and the before/after pair sit side by side, each with
-       its caption underneath. The column ratio is picked so the 4:5 video and
-       the two stacked 16:9 frames finish at the same height: the video is
-       1.25x its width, the stack is 1.125x its width plus one row gap. */
-    .game-showcase {
-        display: grid;
-        grid-template-columns: 0.929fr 1fr;
-        gap: 2rem;
-        align-items: start;
-        width: 100%;
+    .clip.is-ready .clip-video {
+        opacity: 1;
     }
 
-    /* Portrait clip — 4:5 source, shown whole and never cropped */
-    .game-video--portrait {
-        aspect-ratio: 4 / 5;
-        filter: none;   /* true colour, matching the before/after beside it */
+    .clip-placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: linear-gradient(165deg,
+            #C8D8E8 0%, #A8CCA8 30%, #7DB878 60%, #C4A27A 100%);
+        outline: 2px dashed rgba(37,60,48,0.45);
+        outline-offset: -12px;
     }
 
-    /* Before over after, sharing the right column */
-    .game-ba {
-        display: grid;
-        gap: 1.1rem;
-        width: 100%;
+    .clip.is-ready .clip-placeholder {
+        display: none;
     }
 
-    .game-img--ba {
-        aspect-ratio: 16 / 9;
-        filter: none;   /* shown at true colour, no warm grade */
-    }
-
-    /* Below this width the two columns get too narrow to read, so the whole
-       showcase becomes a single stack. */
-    @media (max-width: 880px) {
-        .game-showcase {
-            grid-template-columns: 1fr;
-            gap: 3.5rem;
-        }
-    }
-
-    .game-caption {
+    .clip-placeholder-label {
         font-family: 'Lora', Georgia, serif;
-        font-style: italic;
-        font-size: 1.05rem;
-        color: var(--c-near-black);
-        text-align: center;
-        max-width: 480px;
-        line-height: 1.7;
-    }
-
-    .game-dev-note {
-        text-align: center;
-        margin-top: 3rem;
-        font-family: 'Lora', Georgia, serif;
-        font-style: italic;
-        font-size: 0.95rem;
+        font-size: 0.88rem;
+        line-height: 1.55;
         color: var(--c-green-deep);
-        opacity: 0.55;
+        text-align: center;
+        max-width: 360px;
+        background: rgba(245,242,232,0.88);
+        padding: 0.8rem 1rem;
+        border-radius: 4px;
+    }
+
+    .clip-placeholder-label code {
+        display: block;
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 0.35rem;
+    }
+
+    .clip-placeholder-label small {
+        display: block;
+        margin-top: 0.35rem;
+        font-size: 0.72rem;
+        opacity: 0.7;
     }
 
 
     /* =============================================================
-       SECTION: THE STORY
+       SECTION: THE EGG — full width, dark, the quiet ending of the beats
        ============================================================= */
-    .s-story {
-        padding: 5rem 28px 6rem;
-        background-color: var(--c-cream-sky);
-        position: relative;
-        display: flex;
-        align-items: center;
-        margin-top: -3px;
-        z-index: 1;
-    }
-
-    .s-story::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background:
-            radial-gradient(ellipse 50% 55% at 18% 48%, rgba(62,122,88,0.06) 0%, transparent 100%),
-            radial-gradient(ellipse 50% 55% at 82% 52%, rgba(196,144,90,0.04) 0%, transparent 100%);
-    }
-
-    .s-story .inner {
+    .s-egg {
+        background-color: var(--c-hero-bg);
+        padding: 6rem 0;
         text-align: center;
     }
 
-    .story-p {
-        font-size: clamp(1rem, 1.8vw, 1.2rem);
-        line-height: 1.85;
-        color: var(--c-near-black);
-        letter-spacing: 0.01em;
+    /* The egg is shot in scope (2.39:1). The letterbox bars are cropped
+       off in the encode, so the frame is shown at its true shape. */
+    .clip--full {
+        /* Full width, but on short screens narrow enough that the clip,
+           the line and the button all fit in one view. */
+        max-width: min(1600px, max(70vw, calc((100vh - 300px) * 2.388)));
+        margin: 0 auto;
+        aspect-ratio: 1920 / 804;
+        border-radius: 0;
+        box-shadow: none;
     }
 
-    .story-p + .story-p {
-        margin-top: 1.5rem;
+    .clip--full .clip-placeholder {
+        background: linear-gradient(165deg, #1B2E2A 0%, #23392F 55%, #3A3426 100%);
+        outline-color: rgba(253,246,236,0.35);
+    }
+
+    .egg-text {
+        padding: 2.75rem 28px 0;
+    }
+
+    .egg-sub {
+        font-family: 'Lora', Georgia, serif;
+        font-style: italic;
+        font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+        line-height: 1.7;
+        color: rgba(253,246,236,0.78);
+        max-width: 560px;
+        margin: 0 auto 1.1rem;
+    }
+
+    .egg-line {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+        line-height: 1.5;
+        color: rgba(253,246,236,0.94);
+        max-width: 640px;
+        margin: 0 auto 2rem;
+        text-shadow: 0 1px 18px rgba(0,0,0,0.45);
+    }
+
+    /* Held back, then faded in by script after a pause */
+    .fade-late {
+        opacity: 0;
+        visibility: hidden;   /* not clickable or focusable while hidden */
+        transition: opacity 1.5s ease, visibility 0s linear 1.5s;
+    }
+
+    .fade-late.visible {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 1.5s ease;
     }
 
 
@@ -622,7 +770,8 @@
        SECTION: THE INSPIRATION
        ============================================================= */
     .s-inspiration {
-        padding: 7rem 28px;
+        padding: calc(7rem + 70px) 28px 7rem;
+        margin-top: -70px;   /* tucks under the hero's curved bottom */
         background-color: var(--c-cream-deep);
         position: relative;
     }
@@ -666,34 +815,6 @@
         margin-top: 1.75rem;
     }
 
-    /*
-     * INSPIRATION MEDIA — two options, pick one:
-     *
-     * Option A (video loop):
-     *   Replace the .inspiration-placeholder div with:
-     *
-     *   <div class="inspiration-media-wrap">
-     *     <video
-     *       class="inspiration-video"
-     *       autoplay muted loop playsinline
-     *       poster="hummingbird-hero-poster.jpg"
-     *       aria-label="A real hummingbird hovering on the 22nd floor of a city building"
-     *     >
-     *       <source src="hummingbird-hero.mp4" type="video/mp4">
-     *     </video>
-     *   </div>
-     *
-     * Option B (still image):
-     *   Replace the .inspiration-placeholder div with:
-     *
-     *   <div class="inspiration-media-wrap">
-     *     <img
-     *       src="hummingbird-hero-poster.jpg"
-     *       alt="A real hummingbird hovering on the 22nd floor of a city building"
-     *       class="inspiration-img"
-     *     >
-     *   </div>
-     */
     .inspiration-media-wrap {
         border-radius: 6px;
         overflow: hidden;
@@ -712,32 +833,185 @@
         border-radius: 6px;
     }
 
-    .inspiration-placeholder {
-        width: 100%;
-        aspect-ratio: 3 / 4;
-        max-height: 420px;
-        border-radius: 6px;
-        background: linear-gradient(178deg,
-            #B8CCD8 0%, #A8C4D0 18%, #88A890 38%, #4A8858 60%, #2E5E3A 82%, #1E3A28 100%);
-        box-shadow:
-            0 12px 60px rgba(37,60,48,0.20),
-            0 4px 18px rgba(37,60,48,0.12);
+
+    /* =============================================================
+       SECTION: THE STUDIO
+       ============================================================= */
+    .s-studio {
+        padding: 8rem 28px;
+        background-color: var(--c-cream-sky);
+        text-align: center;
+        position: relative;
     }
 
-    /* Label visible inside placeholder until replaced */
-    .inspiration-placeholder-label {
+    .s-studio::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(196,144,90,0.06) 0%, transparent 100%);
+    }
+
+    .s-studio .eyebrow {
+        margin-bottom: 1.5rem;
+    }
+
+    .studio-mark {
+        display: block;
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 2rem;
+        opacity: 0.85;
+    }
+
+    .studio-tagline {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: clamp(1.7rem, 4.2vw, 2.6rem);
+        color: var(--c-green-deep);
+        margin-bottom: 3rem;
+    }
+
+    .studio-p {
+        font-size: clamp(1rem, 1.8vw, 1.15rem);
+        line-height: 1.9;
+        color: var(--c-near-black);
+    }
+
+    .studio-p + .studio-p {
+        margin-top: 1.4rem;
+    }
+
+    .studio-close {
+        margin-top: 3rem;
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+        line-height: 1.5;
+        color: var(--c-green-deep);
+    }
+
+
+    /* =============================================================
+       FIRST LOOK — video pop-up
+       ============================================================= */
+    .fl-modal {
+        /* As wide as fits: never taller than the screen allows */
+        width: min(1100px, 92vw, calc((100vh - 170px) * 16 / 9));
+        max-width: none;
+        max-height: none;
+        margin: auto;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        overflow: visible;
+    }
+
+    .fl-modal::backdrop {
+        background: rgba(8, 18, 16, 0.88);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+    }
+
+    .fl-modal[open] {
+        animation: fl-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fl-modal[open]::backdrop {
+        animation: fl-fade 0.4s ease;
+    }
+
+    @keyframes fl-rise {
+        from { opacity: 0; transform: translateY(16px) scale(0.985); }
+        to   { opacity: 1; transform: none; }
+    }
+
+    @keyframes fl-fade {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    .fl-frame {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 30px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(253,246,236,0.06);
+    }
+
+    .fl-frame iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .fl-close {
+        position: absolute;
+        top: -56px;
+        right: 0;
+        width: 42px;
+        height: 42px;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        height: 100%;
-        font-family: 'Lora', Georgia, serif;
-        font-style: italic;
-        font-size: 1rem;
-        color: rgba(138,175,150,0.50);
+        border-radius: 50%;
+        border: 1px solid rgba(253,246,236,0.5);
+        background: rgba(10,18,10,0.35);
+        color: rgba(253,246,236,0.95);
+        cursor: pointer;
+        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .fl-close svg {
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        fill: none;
+    }
+
+    .fl-close:hover {
+        background: rgba(253,246,236,0.95);
+        border-color: rgba(253,246,236,0.95);
+        color: var(--c-green-deep);
+    }
+
+    .fl-close:focus-visible {
+        outline: 2px solid rgba(253,246,236,0.9);
+        outline-offset: 3px;
+    }
+
+    .fl-caption {
+        margin-top: 1.1rem;
         text-align: center;
-        padding: 2rem;
-        line-height: 1.7;
+        font-family: 'Lora', Georgia, serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(253,246,236,0.6);
+    }
+
+    .fl-caption em {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        text-transform: none;
+        letter-spacing: 0.02em;
+        font-size: 1.05rem;
+        color: rgba(253,246,236,0.85);
+    }
+
+    /* The page behind doesn't scroll while the video is open */
+    html.fl-lock {
+        overflow: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .fl-modal[open], .fl-modal[open]::backdrop { animation: none; }
     }
 
 
@@ -988,7 +1262,7 @@
         font-style: italic;
         font-size: 1.05rem;
         color: rgba(255,255,255,0.88);
-        margin-bottom: 2.75rem;
+        margin-bottom: 1.5rem;
     }
 
     .footer-socials {
@@ -1024,11 +1298,37 @@
         fill: currentColor;
     }
 
+    .footer-contact {
+        font-family: 'Lora', Georgia, serif;
+        font-size: 1rem;
+        color: rgba(255,255,255,0.80);
+        margin-bottom: 2.75rem;
+    }
+
+    .footer-contact a {
+        color: rgba(255,255,255,0.97);
+        text-decoration: underline;
+        text-decoration-color: rgba(255,255,255,0.40);
+        text-underline-offset: 4px;
+        transition: text-decoration-color 0.3s;
+    }
+
+    .footer-contact a:hover {
+        text-decoration-color: rgba(255,255,255,0.90);
+    }
+
     .footer-copy {
         font-family: 'Lora', Georgia, serif;
         font-size: 0.90rem;
         letter-spacing: 0.05em;
         color: rgba(255,255,255,0.60);
+    }
+
+    /* Respect reduced-motion settings: no slide-ins, no hovering bird */
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .reveal, .fade, .fade-late { opacity: 1; visibility: visible; transform: none; transition: none; }
+        .thankyou-bird, .hero-cue-line, .hero-cue-chevron { animation: none; }
     }
 
     </style>
@@ -1042,8 +1342,9 @@
 <nav class="s-nav" aria-label="Site navigation">
     <a class="nav-wordmark" href="#">Hover Studio Games</a>
     <ul class="nav-links">
-        <li><a href="#the-story">The Story</a></li>
-        <li><a href="#the-game">The Game</a></li>
+        <li><a href="#the-story">Story</a></li>
+        <li><a href="#the-game">Game</a></li>
+        <li><a href="#the-studio">Studio</a></li>
         <li><a href="#signup" class="nav-cta">Stay Close</a></li>
     </ul>
 </nav>
@@ -1054,20 +1355,28 @@
 <section class="s-hero" aria-label="A Thousand Wingbeats by Hover Studio Games">
 
     <!--
-    Two encodes of the same footage. Browsers take the first source they can
-    decode, and download only that one:
-      1. AV1 1080p (6.1MB) — Chrome, Edge, Firefox, Safari 17+ on newer hardware
-      2. H.264 720p (5.4MB) — everything else
+    Four encodes of the same footage. Browsers take the first source whose
+    media query matches and that they can decode, and download only that one:
+      1. AV1 540x810 portrait crop (3.1MB)  — phones
+      2. H.264 540x810 portrait crop (3.7MB) — phones without AV1
+      3. AV1 1080p (6.1MB)  — larger screens
+      4. H.264 720p (5.4MB) — everything else
+    The poster shows straight away, before any video data arrives.
+    Playback is handled by the script at the end of the page (data-managed):
+    it plays only while on screen, and never with reduced motion.
     -->
     <video
         class="hero-bg-video"
-        autoplay
+        data-managed
         muted
         loop
         playsinline
         preload="auto"
+        poster="img/hero-poster.jpg"
         aria-hidden="true"
     >
+        <source src="HeroTeaser.mobile.av1.mp4" type="video/mp4; codecs=av01.0.04M.08" media="(max-width: 600px)">
+        <source src="HeroTeaser.mobile.mp4" type="video/mp4" media="(max-width: 600px)">
         <source src="HeroTeaser.av1.mp4" type="video/mp4; codecs=av01.0.08M.08">
         <source src="HeroTeaser.mp4" type="video/mp4">
     </video>
@@ -1077,7 +1386,11 @@
     <div class="hero-content">
         <span class="hero-presents">Hover Studio Games presents</span>
         <h1 class="hero-title">A Thousand Wingbeats</h1>
-        <em class="hero-tagline">A game about coming home.</em>
+        <em class="hero-tagline">A wordless story about motherhood.</em>
+        <p class="hero-beat">She could leave. She doesn't.</p>
+        <!-- Opens the First Look in a pop-up (see #first-look). Without
+             script, the link simply goes to the video on YouTube. -->
+        <a class="btn-firstlook" href="https://youtu.be/cIp-zdG5Jw8" data-first-look>Watch the First Look</a>
     </div>
 
     <div class="hero-cue" aria-hidden="true">
@@ -1087,25 +1400,6 @@
 
 </section>
 
-
-<!-- ================================================================
-     SECTION 2 — THE STORY
-     ================================================================ -->
-<section class="s-story" aria-label="The story">
-    <div class="inner">
-
-        <p class="story-p reveal">
-            A hummingbird returns to the neighborhood she has always known. 
-            The gardens are sparse now. The flowers are few. She could leave. She doesn't.
-        </p>
-
-        <p class="story-p reveal d2">
-            <span class="title-inline">A Thousand Wingbeats</span> is a game about building a nest, 
-            one careful material at a time, in a world that is slowly learning to welcome her back. About the quiet things that happen when something small refuses to leave.
-        </p>
-
-    </div>
-</section>
 
 <!-- ================================================================
      SECTION 3 — WHERE IT BEGAN
@@ -1118,34 +1412,30 @@
             <div class="inspiration-text reveal">
                 <span class="eyebrow">Where it began</span>
                 <div class="inspiration-body">
-                    <p>
-                        She came to our balcony on the 22nd floor. Completely committed to something the city had made
-                        very difficult.
-                    </p>
-                    <p>
-                        There was wonder. But also something that worried me. Why was
-                        she up here? What had happened to the world below that sent her this far?
-                    </p>
-                    <p>I put out a feeder. She came back.</p>
-                    <p>
-                        I kept thinking about where she went when she left. Whether she had
-                        somewhere to return to.
-                    </p>
+                    <p>A hummingbird appeared on my balcony, 22 floors above Burnaby.</p>
+                    <p>Soaked by rain, she kept coming back to the feeder I put out.</p>
+                    <p>Did she still have a home to return to?</p>
                     <p>That question became this game.</p>
+                    <p>
+                        Her neighbourhood is inspired by Edgemont Village in North Vancouver,
+                        my first home in Canada, where I saw my first hummingbird.
+                    </p>
                 </div>
             </div>
 
-            <!-- Media column -->
+            <!-- Media column — real phone footage from the balcony -->
             <div class="inspiration-media reveal d2">
                 <div class="inspiration-media-wrap">
                     <video
                         class="inspiration-video"
                         data-src="WhereItBegan.mp4"
-                        autoplay
+                        data-poster="img/origin-poster.jpg"
+                        data-managed
                         muted
                         loop
                         playsinline
                         preload="none"
+                        aria-label="Real footage from my balcony on a rainy day: a hummingbird feeding at a red feeder, with Burnaby towers behind."
                     ></video>
                 </div>
             </div>
@@ -1157,65 +1447,289 @@
 
 <!-- ================================================================
      SECTION 4 — THE GAME
+     A vertical scroll of beats that follows the trailer. Each beat is one
+     short muted loop plus a line or two. Clips load as they come near,
+     only the clip on screen plays, and with reduced motion only the
+     poster shows. To fill a beat, drop its .mp4 and .jpg into clips/.
      ================================================================ -->
-<section class="s-game" id="the-game" aria-label="Game footage">
+<section class="s-game" id="the-game" aria-label="The game">
     <div class="inner--full">
 
         <span class="eyebrow reveal">The game</span>
+        <p class="game-intro reveal d1">
+            An Anna's hummingbird returns to the neighbourhood where she was born.<br>
+            The people here have moved too fast to tend their gardens.
+        </p>
 
-        <div class="game-showcase">
+        <div class="game-beats">
 
-            <!--
-            LEFT — uncut gameplay through a full day/night cycle. The source is
-            4:5 portrait and is shown whole, never cropped. Two encodes, AV1
-            first; browsers download only the one they can decode.
-            -->
-            <div class="game-frame reveal">
-                <div class="game-img-wrap">
+            <!-- BEAT 1 — Arrival -->
+            <div class="beat">
+                <div class="clip">
+                    <div class="clip-placeholder" aria-hidden="true">
+                        <p class="clip-placeholder-label">
+                            <code>clips/beat-01-arrival</code>
+                            She flies into the neighbourhood where she was born.
+                            <small>Master: clips/beat-01-arrival.mov (ProRes 422 HQ, 16:9, no audio). Web .mp4 / .av1.mp4 / .jpg are made from it.</small>
+                        </p>
+                    </div>
                     <video
-                        class="game-video game-video--portrait"
-                        data-lazy
-                        autoplay
+                        class="clip-video"
+                        data-managed
+                        data-poster="clips/beat-01-arrival.jpg"
                         muted
                         loop
                         playsinline
                         preload="none"
+                        aria-label="In-game: the hummingbird flies into the neighbourhood where she was born."
                     >
-                        <source data-src="Gameplay.av1.mp4" type="video/mp4; codecs=av01.0.08M.08">
-                        <source data-src="Gameplay.mp4" type="video/mp4">
+                        <source data-src="clips/beat-01-arrival.av1.mp4" type="video/mp4; codecs=av01.0.05M.08">
+                        <source data-src="clips/beat-01-arrival.mp4" type="video/mp4">
                     </video>
                 </div>
-                <p class="game-caption">She carries one thing at a time. Every trip back matters.</p>
+                <div class="beat-text fade">
+                    <p class="beat-line">She has come home<br>to make a home.</p>
+                    <p class="beat-sub">A nest, for the life to come.</p>
+                </div>
             </div>
 
-            <!-- RIGHT — the same corner of the garden, early on and later -->
-            <div class="game-frame reveal d1">
-                <div class="game-ba">
-                    <div class="game-img-wrap">
-                        <img
-                            class="game-img game-img--ba"
-                            src="Before.jpg"
-                            alt="A corner of the garden early on: empty clay pots, plain grass, a leaning picket fence."
-                            loading="lazy"
-                            width="1200"
-                            height="675"
-                        >
+            <!-- BEAT 2 — Carrying -->
+            <div class="beat beat--flip">
+                <div class="clip">
+                    <div class="clip-placeholder" aria-hidden="true">
+                        <p class="clip-placeholder-label">
+                            <code>clips/beat-02-carrying</code>
+                            She carries a material through the neighbourhood.
+                            <small>Master: clips/beat-02-carrying.mov (ProRes 422 HQ, 16:9, no audio). Web .mp4 / .av1.mp4 / .jpg are made from it.</small>
+                        </p>
                     </div>
-                    <div class="game-img-wrap">
-                        <img
-                            class="game-img game-img--ba"
-                            src="After.jpg"
-                            alt="The same corner later: the pots are full, lavender and pink and yellow flowers crowd the path, the planting has thickened."
-                            loading="lazy"
-                            width="1200"
-                            height="675"
-                        >
-                    </div>
+                    <video
+                        class="clip-video"
+                        data-managed
+                        data-poster="clips/beat-02-carrying.jpg"
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                        aria-label="In-game: the hummingbird carries nest material through the neighbourhood."
+                    >
+                        <source data-src="clips/beat-02-carrying.av1.mp4" type="video/mp4; codecs=av01.0.05M.08">
+                        <source data-src="clips/beat-02-carrying.mp4" type="video/mp4">
+                    </video>
                 </div>
-                <p class="game-caption">She didn't plant them. Her presence did.</p>
+                <div class="beat-text fade">
+                    <p class="beat-line">One twig. Then another.<br>Then another.</p>
+                    <p class="beat-sub">She carries one material at a time. Each has its own weight and balance.</p>
+                </div>
+            </div>
+
+            <!-- BEAT 3 — Bloom -->
+            <div class="beat">
+                <div class="clip">
+                    <div class="clip-placeholder" aria-hidden="true">
+                        <p class="clip-placeholder-label">
+                            <code>clips/beat-03-bloom</code>
+                            She feeds from a flower and the garden blooms around her.
+                            <small>Master: clips/beat-03-bloom.mov (ProRes 422 HQ, 16:9, no audio). Web .mp4 / .av1.mp4 / .jpg are made from it.</small>
+                        </p>
+                    </div>
+                    <video
+                        class="clip-video"
+                        data-managed
+                        data-poster="clips/beat-03-bloom.jpg"
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                        aria-label="In-game: the hummingbird feeds from a flower and the garden blooms around her."
+                    >
+                        <source data-src="clips/beat-03-bloom.av1.mp4" type="video/mp4; codecs=av01.0.05M.08">
+                        <source data-src="clips/beat-03-bloom.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="beat-text fade">
+                    <p class="beat-line">She feeds.<br>The garden answers.</p>
+                    <p class="beat-sub">She is a pollinator. The flowers she feeds from spread new growth.</p>
+                </div>
+            </div>
+
+            <!-- BEAT 4 — Other mothers -->
+            <div class="beat beat--flip">
+                <div class="clip">
+                    <div class="clip-placeholder" aria-hidden="true">
+                        <p class="clip-placeholder-label">
+                            <code>clips/beat-04-mothers</code>
+                            The raven on her nest and the black cat in the garden.
+                            <small>Master: clips/beat-04-mothers.mov (ProRes 422 HQ, 16:9, no audio). Web .mp4 / .av1.mp4 / .jpg are made from it.</small>
+                        </p>
+                    </div>
+                    <video
+                        class="clip-video"
+                        data-managed
+                        data-poster="clips/beat-04-mothers.jpg"
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                        aria-label="In-game: a raven flies up into the trees, and a black cat moves through the garden."
+                    >
+                        <source data-src="clips/beat-04-mothers.av1.mp4" type="video/mp4; codecs=av01.0.05M.08">
+                        <source data-src="clips/beat-04-mothers.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="beat-text fade">
+                    <p class="beat-line">She is not the only<br>mother here.</p>
+                    <p class="beat-sub">Each of them has a song of their own. When she meets them, it weaves into hers.</p>
+                </div>
+            </div>
+
+            <!-- BEAT 5 — Flight -->
+            <div class="beat">
+                <div class="clip">
+                    <div class="clip-placeholder" aria-hidden="true">
+                        <p class="clip-placeholder-label">
+                            <code>clips/beat-05-flight</code>
+                            Hovering, darting, flying backwards.
+                            <small>Master: clips/beat-05-flight.mov (ProRes 422 HQ, 16:9, no audio). Web .mp4 / .av1.mp4 / .jpg are made from it.</small>
+                        </p>
+                    </div>
+                    <video
+                        class="clip-video"
+                        data-managed
+                        data-poster="clips/beat-05-flight.jpg"
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                        aria-label="In-game: close up, the hummingbird hovers at a lavender flower, then darts away."
+                    >
+                        <source data-src="clips/beat-05-flight.av1.mp4" type="video/mp4; codecs=av01.0.05M.08">
+                        <source data-src="clips/beat-05-flight.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="beat-text fade">
+                    <p class="beat-line">A thousand wingbeats,<br>just to stay in one place.</p>
+                    <p class="beat-sub">Her flight is modelled on a real Anna's hummingbird. She hovers, darts and flies backwards.</p>
+                </div>
+            </div>
+
+            <!-- BEAT 6 — The nest -->
+            <div class="beat beat--flip">
+                <div class="clip">
+                    <div class="clip-placeholder" aria-hidden="true">
+                        <p class="clip-placeholder-label">
+                            <code>clips/beat-06-nest</code>
+                            The bird's-eye view dissolving into the nest with the egg.
+                            <small>Master: clips/beat-06-nest.mov (ProRes 422 HQ, 16:9, no audio). Web .mp4 / .av1.mp4 / .jpg are made from it.</small>
+                        </p>
+                    </div>
+                    <video
+                        class="clip-video"
+                        data-managed
+                        data-poster="clips/beat-06-nest.jpg"
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                        aria-label="In-game: looking up from inside the nest as day turns to night, then morning over the neighbourhood."
+                    >
+                        <!-- H.264 only: AV1 smoothed away the stars and constellation lines in the night sky -->
+                        <source data-src="clips/beat-06-nest.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="beat-text fade">
+                    <p class="beat-line">Night comes.<br>The nest holds.</p>
+                    <p class="beat-sub">The camera tells the story. Every moment is choreographed like a scene in a film.</p>
+                </div>
             </div>
 
         </div>
+
+    </div>
+</section>
+
+
+<!-- ================================================================
+     SECTION 4b — THE EGG (beat 7)
+     Full width and dark. No text at first; after a pause the first line
+     fades in, then the second, then the button (data-delay, in ms, timed
+     by the script at the end of the page).
+     ================================================================ -->
+<section class="s-egg" id="the-egg" aria-label="The egg">
+
+    <!-- BEAT 7 — The egg. Scope frame (2.39:1); the line and button
+         fade in underneath it after a pause. -->
+    <div class="clip clip--full">
+        <div class="clip-placeholder" aria-hidden="true">
+            <p class="clip-placeholder-label">
+                <code>clips/beat-07-egg</code>
+                The egg, the tap.
+                <small>Master: clips/beat-07-egg.mov (ProRes 422 HQ, 16:9, no audio). Web .mp4 / .av1.mp4 / .jpg are made from it.</small>
+            </p>
+        </div>
+        <video
+            class="clip-video"
+            data-managed
+            data-poster="clips/beat-07-egg.jpg"
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-label="In-game: two eggs in the nest on the balcony railing. One of them moves."
+        >
+            <source data-src="clips/beat-07-egg.av1.mp4" type="video/mp4; codecs=av01.0.05M.08">
+            <source data-src="clips/beat-07-egg.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="egg-text">
+        <p class="egg-sub fade-late" data-delay="500">
+            She stayed, and the people around her remembered how to care.
+        </p>
+        <p class="egg-line fade-late" data-delay="1700">
+            Now the life to come has a home.
+        </p>
+        <div class="fade-late" data-delay="2900">
+            <a class="btn-firstlook" href="https://youtu.be/cIp-zdG5Jw8" data-first-look>Watch the First Look</a>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ================================================================
+     SECTION 5 — THE STUDIO
+     ================================================================ -->
+<section class="s-studio" id="the-studio" aria-labelledby="studio-tagline">
+    <div class="inner">
+
+        <img
+            class="studio-mark reveal"
+            src="img/icon-192.png"
+            alt="Hover Studio Games logo"
+            width="56"
+            height="56"
+            loading="lazy"
+            decoding="async"
+        >
+        <span class="eyebrow reveal">The studio</span>
+        <h2 class="studio-tagline reveal d1" id="studio-tagline">Small lives. Vast worlds.</h2>
+
+        <p class="studio-p reveal d2">
+            Hover Studio Games is an independent studio in Burnaby, B.C.
+        </p>
+        <p class="studio-p reveal d2">
+            I'm Jan Rimar Suratos, founder and creative director.
+            I trained as a ballet dancer and choreographer, and graduated
+            in computer science from UBC Okanagan. My stories are shaped by dance and by film.
+        </p>
+        <p class="studio-p reveal d2">
+            I make games about B.C., with B.C. artists, composers and specialists.
+        </p>
+
+        <p class="studio-close reveal d3">
+            So that small lives like hers always have a home to return to.
+        </p>
 
     </div>
 </section>
@@ -1274,7 +1788,7 @@
     </form>
 
     <div class="signup-thankyou" id="signup-thankyou" aria-live="polite" role="status">
-        <img class="thankyou-bird" src="HoverStudioGamesLogo.png" alt="" aria-hidden="true" loading="lazy">
+        <img class="thankyou-bird" src="img/icon-192.png" alt="Hover Studio Games hummingbird logo" width="110" height="110" loading="lazy">
         <p class="signup-thankyou-title">She's on her way.</p>
         <p class="signup-thankyou-middle">Thank you for being here before it begins.</p>
         <p class="signup-thankyou-sub">We'll let you know when she arrives.</p>
@@ -1296,7 +1810,8 @@
     <hr class="footer-rule" aria-hidden="true">
 
     <p class="footer-studio">Hover Studio Games</p>
-    <p class="footer-note">A Thousand Wingbeats is coming to Steam in early 2027.</p>
+    <p class="footer-note"><em>A Thousand Wingbeats</em> is coming to Steam in early 2028.</p>
+    <p class="footer-contact">Contact: <a href="mailto:hoverstudiogames@gmail.com">hoverstudiogames@gmail.com</a></p>
 
     <!--
     SOCIAL LINKS — replace each href="#" with the real URL when accounts exist.
@@ -1333,9 +1848,26 @@
     </ul>
     -->
 
-    <p class="footer-copy">&copy; 2026 Hover Studio Games</p>
+    <p class="footer-copy">&copy; 2026 Hover Studio Games, Burnaby, B.C.</p>
 
 </footer>
+
+
+<!-- ================================================================
+     FIRST LOOK — video pop-up
+     A native <dialog>: Esc closes it, focus stays inside while open.
+     The YouTube player (privacy-enhanced, youtube-nocookie.com) is only
+     created when it opens and removed when it closes, so nothing loads
+     from YouTube until someone asks to watch, and closing stops playback.
+     To change the video, edit FIRST_LOOK_ID in the script below.
+     ================================================================ -->
+<dialog class="fl-modal" id="first-look" aria-label="A Thousand Wingbeats, First Look">
+    <button class="fl-close" type="button" aria-label="Close video">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="fl-frame"></div>
+    <p class="fl-caption"><em>A Thousand Wingbeats</em> &middot; First Look</p>
+</dialog>
 
 
 <!-- ================================================================
@@ -1345,7 +1877,10 @@
 (function () {
     'use strict';
 
-    // Intersection Observer — adds .visible to .reveal elements as they enter view
+    var reduceMotion = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Intersection Observer — adds .visible to .reveal and .fade elements as they enter view
     var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
@@ -1355,31 +1890,222 @@
         });
     }, { threshold: 0.12 });
 
-    document.querySelectorAll('.reveal').forEach(function (el) {
+    document.querySelectorAll('.reveal, .fade').forEach(function (el) {
         observer.observe(el);
     });
 
-    // Lazy-load below-fold videos — start fetching 400px before they enter view.
-    // Two shapes are supported: a single-file video carrying data-src itself,
-    // and a multi-codec video marked data-lazy whose <source> children carry it.
-    var lazyVids = document.querySelectorAll('video[data-src], video[data-lazy]');
-    if (lazyVids.length) {
-        var vidObserver = new IntersectionObserver(function (entries) {
+
+    // ---------------------------------------------------------------
+    // Clips (every <video data-managed>)
+    //
+    // 1. Loading: each clip starts fetching its poster and video about
+    //    600px before it scrolls into view. Two shapes are supported: a
+    //    single-file video carrying data-src itself, and a multi-codec
+    //    video whose <source> children carry data-src. The hero already
+    //    has real src attributes and simply loads with the page.
+    // 2. Placeholders: a beat's dashed placeholder stays until its poster
+    //    or video actually loads, so a missing file leaves the label up.
+    // 3. Playback: only the clip most on screen plays; all others pause.
+    // 4. Reduced motion: nothing plays and beat videos are never fetched;
+    //    only posters show.
+    // ---------------------------------------------------------------
+    var clips = Array.prototype.slice.call(document.querySelectorAll('video[data-managed]'));
+
+    function markReady(v) {
+        var wrap = v.closest('.clip');
+        if (wrap) wrap.classList.add('is-ready');
+    }
+
+    function loadClip(v) {
+        if (v.dataset.loaded) return;
+        v.dataset.loaded = '1';
+
+        if (v.dataset.poster) {
+            var img = new Image();
+            img.onload = function () {
+                v.poster = v.dataset.poster;
+                markReady(v);
+            };
+            img.src = v.dataset.poster;
+        }
+
+        if (reduceMotion) return;   // posters only
+
+        var srcs = v.querySelectorAll('source[data-src]');
+        if (srcs.length) {
+            srcs.forEach(function (s) { s.src = s.dataset.src; });
+            v.load();
+        } else if (v.dataset.src) {
+            v.src = v.dataset.src;
+            v.load();
+        }
+    }
+
+    var ratios = new Map();
+    var videoOpen = false;   // true while the First Look pop-up is open
+
+    var activeClip = null;   // the clip that should be playing right now
+
+    // Ask a clip to play. If the browser refuses or the load stalled, try
+    // once more shortly after; a clip whose loading failed is reloaded first.
+    // (A refusal because autoplay is blocked, e.g. iPhone Low Power Mode,
+    // isn't retried: the poster simply stays.)
+    function tryPlay(v, isRetry) {
+        if (v.error || v.networkState === 3 /* NETWORK_NO_SOURCE */) {
+            if (isRetry) return;
+            v.load();
+        }
+        var p = v.play();
+        if (p && p.catch) {
+            p.catch(function (err) {
+                if (isRetry || (err && err.name === 'NotAllowedError')) return;
+                setTimeout(function () {
+                    if (v === activeClip && v.paused && !videoOpen) tryPlay(v, true);
+                }, 700);
+            });
+        }
+    }
+
+    function chooseActive() {
+        var best = null;
+        var bestRatio = 0.15;   // must be at least this much on screen to play
+        ratios.forEach(function (r, v) {
+            if (r > bestRatio) { bestRatio = r; best = v; }
+        });
+        activeClip = (reduceMotion || videoOpen) ? null : best;
+        clips.forEach(function (v) {
+            if (v === activeClip) {
+                if (v.paused) tryPlay(v, false);
+            } else if (!v.paused) {
+                v.pause();
+            }
+        });
+    }
+
+    // Measure every clip's visibility directly (rather than relying on the
+    // observer's last snapshot), then pick again. Runs when scrolling stops,
+    // on resize, and when the visitor comes back to the tab.
+    function remeasure() {
+        var vh = window.innerHeight;
+        clips.forEach(function (v) {
+            var r = v.getBoundingClientRect();
+            var visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+            ratios.set(v, r.height ? visible / r.height : 0);
+        });
+        chooseActive();
+    }
+
+    if (clips.length) {
+        var loader = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    var v = entry.target;
-                    var srcs = v.querySelectorAll('source[data-src]');
-                    if (srcs.length) {
-                        srcs.forEach(function (s) { s.src = s.dataset.src; });
-                    } else if (v.dataset.src) {
-                        v.src = v.dataset.src;
-                    }
-                    v.load();
-                    vidObserver.unobserve(v);
+                    loadClip(entry.target);
+                    loader.unobserve(entry.target);
                 }
             });
-        }, { rootMargin: '400px' });
-        lazyVids.forEach(function (v) { vidObserver.observe(v); });
+        }, { rootMargin: '600px 0px' });
+
+        var watcher = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                ratios.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
+            });
+            chooseActive();
+        }, { threshold: [0, 0.15, 0.3, 0.5, 0.7, 0.9, 1] });
+
+        clips.forEach(function (v) {
+            if (reduceMotion) v.pause();
+            v.addEventListener('loadeddata', function () {
+                markReady(v);
+                chooseActive();   // it may already be the one on screen
+            });
+            // Ready to play: if this is the clip on screen and it's sitting paused, start it
+            v.addEventListener('canplay', function () {
+                if (v === activeClip && v.paused && !videoOpen) tryPlay(v, false);
+            });
+            loader.observe(v);
+            watcher.observe(v);
+        });
+
+        var settleTimer;
+        var settle = function () {
+            clearTimeout(settleTimer);
+            settleTimer = setTimeout(remeasure, 180);
+        };
+        window.addEventListener('scroll', settle, { passive: true });
+        window.addEventListener('resize', settle);
+        document.addEventListener('visibilitychange', function () {
+            if (!document.hidden) remeasure();
+        });
+    }
+
+
+    // ---------------------------------------------------------------
+    // First Look pop-up. Buttons marked data-first-look open it instead of
+    // leaving for YouTube. If <dialog> isn't supported, the link works as
+    // a normal link to the video.
+    // ---------------------------------------------------------------
+    var FIRST_LOOK_ID = 'cIp-zdG5Jw8';
+    var flModal = document.getElementById('first-look');
+    if (flModal && typeof flModal.showModal === 'function') {
+        var flFrame = flModal.querySelector('.fl-frame');
+        var flClose = flModal.querySelector('.fl-close');
+
+        var openFirstLook = function (e) {
+            e.preventDefault();
+            var iframe = document.createElement('iframe');
+            iframe.src = 'https://www.youtube-nocookie.com/embed/' + FIRST_LOOK_ID +
+                '?autoplay=1&rel=0&playsinline=1';
+            iframe.title = 'A Thousand Wingbeats, First Look';
+            iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+            iframe.allowFullscreen = true;
+            iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+            flFrame.appendChild(iframe);
+
+            videoOpen = true;
+            chooseActive();   // pauses the page's clips
+            document.documentElement.classList.add('fl-lock');
+            flModal.showModal();
+            flClose.focus();
+        };
+
+        document.querySelectorAll('[data-first-look]').forEach(function (a) {
+            a.addEventListener('click', openFirstLook);
+        });
+
+        flClose.addEventListener('click', function () { flModal.close(); });
+
+        // A click outside the video (on the dimmed backdrop) closes it
+        flModal.addEventListener('click', function (e) {
+            if (e.target === flModal) flModal.close();
+        });
+
+        // However it closes (button, backdrop, Esc): stop the video, restore the page
+        flModal.addEventListener('close', function () {
+            flFrame.innerHTML = '';
+            videoOpen = false;
+            document.documentElement.classList.remove('fl-lock');
+            chooseActive();
+        });
+    }
+
+
+    // ---------------------------------------------------------------
+    // The egg (beat 7): no text at first. Once the clip is mostly on
+    // screen, wait, then fade in the line, then the button. Each element's
+    // data-delay is in milliseconds from that moment.
+    // ---------------------------------------------------------------
+    var eggClip = document.querySelector('#the-egg .clip');
+    if (eggClip) {
+        var lateEls = document.querySelectorAll('#the-egg .fade-late');
+        var eggObserver = new IntersectionObserver(function (entries) {
+            if (!entries[0].isIntersecting) return;
+            eggObserver.disconnect();
+            lateEls.forEach(function (el) {
+                var delay = reduceMotion ? 0 : parseInt(el.dataset.delay || '0', 10);
+                setTimeout(function () { el.classList.add('visible'); }, delay);
+            });
+        }, { threshold: 0.35 });
+        eggObserver.observe(eggClip);
     }
 
 
